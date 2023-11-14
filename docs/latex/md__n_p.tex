@@ -1,0 +1,231 @@
+\chapter{NP Class Documentation}
+\hypertarget{md__n_p}{}\label{md__n_p}\index{NP Class Documentation@{NP Class Documentation}}
+\label{md__n_p_autotoc_md35}%
+\Hypertarget{md__n_p_autotoc_md35}%
+ The {\ttfamily NP} class is a specialized socket class for sending and receiving Num\+Py arrays and strings over a socket. This class inherits from Python\textquotesingle{}s built-\/in {\ttfamily socket.\+socket} class and extends it by providing methods tailored for Num\+Py array and string communication.\hypertarget{md__n_p_autotoc_md36}{}\doxysection{\texorpdfstring{Table of Contents}{Table of Contents}}\label{md__n_p_autotoc_md36}
+
+\begin{DoxyItemize}
+\item NP Class Documentation
+\begin{DoxyItemize}
+\item Table of Contents
+\item Installation Requirements
+\item Quick Start
+\item Methods
+\begin{DoxyItemize}
+\item sendall
+\item send\textbackslash{}\+\_\+string\textbackslash{}\+\_\+as\textbackslash{}\+\_\+bytes
+\item recv
+\item recv\textbackslash{}\+\_\+string\textbackslash{}\+\_\+as\textbackslash{}\+\_\+bytes
+\item accept
+\item \textbackslash{}\+\_\+\textbackslash{}\+\_\+pack\textbackslash{}\+\_\+frame (private)
+\end{DoxyItemize}
+\item Examples
+\begin{DoxyItemize}
+\item Sending and Receiving Num\+Py Arrays
+\item Sending and Receiving Strings
+\item Handling Multiple Types of Data
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__n_p_autotoc_md38}{}\doxysection{\texorpdfstring{Installation Requirements}{Installation Requirements}}\label{md__n_p_autotoc_md38}
+Before using the {\ttfamily NP} class, make sure you have the following packages installed\+:
+
+
+\begin{DoxyItemize}
+\item numpy
+\item logging
+\end{DoxyItemize}
+
+You can install them using pip\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pip\ install\ numpy\ logging}
+
+\end{DoxyCode}
+\hypertarget{md__n_p_autotoc_md39}{}\doxysection{\texorpdfstring{Quick Start}{Quick Start}}\label{md__n_p_autotoc_md39}
+Here is a quick example of creating an {\ttfamily NP} object and using its methods\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{from}\ my\_np\_class\ \textcolor{keyword}{import}\ NP\ \ \textcolor{comment}{\#\ Replace\ 'my\_np\_class'\ with\ the\ name\ of\ your\ python\ file}}
+\DoxyCodeLine{\textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Initialize\ NP\ object}}
+\DoxyCodeLine{server\_socket\ =\ NP(socket.AF\_INET,\ socket.SOCK\_STREAM)}
+\DoxyCodeLine{server\_socket.bind((\textcolor{stringliteral}{'localhost'},\ 12345))}
+\DoxyCodeLine{server\_socket.listen(1)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Accepting\ a\ new\ connection}}
+\DoxyCodeLine{client\_socket,\ client\_address\ =\ server\_socket.accept()}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Sending\ a\ numpy\ array}}
+\DoxyCodeLine{array\_to\_send\ =\ np.array([1,\ 2,\ 3])}
+\DoxyCodeLine{client\_socket.sendall(array\_to\_send)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Receiving\ a\ numpy\ array}}
+\DoxyCodeLine{received\_array\ =\ client\_socket.recv()}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Closing\ the\ sockets}}
+\DoxyCodeLine{client\_socket.close()}
+\DoxyCodeLine{server\_socket.close()}
+
+\end{DoxyCode}
+\hypertarget{md__n_p_autotoc_md40}{}\doxysection{\texorpdfstring{Methods}{Methods}}\label{md__n_p_autotoc_md40}
+\hypertarget{md__n_p_autotoc_md41}{}\doxysubsection{\texorpdfstring{sendall}{sendall}}\label{md__n_p_autotoc_md41}
+{\bfseries{Description}}\+: Sends a Num\+Py array over the socket.
+
+{\bfseries{Arguments}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily frame (np.\+ndarray)}\+: The Num\+Py array to send.
+\end{DoxyItemize}
+
+{\bfseries{Returns}}\+: None
+
+\DoxyHorRuler{0}
+\hypertarget{md__n_p_autotoc_md43}{}\doxysubsection{\texorpdfstring{send\+\_\+string\+\_\+as\+\_\+bytes}{send\_string\_as\_bytes}}\label{md__n_p_autotoc_md43}
+{\bfseries{Description}}\+: Sends a string as a byte array over the socket.
+
+{\bfseries{Arguments}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily string (str)}\+: The string to send.
+\end{DoxyItemize}
+
+{\bfseries{Returns}}\+: None
+
+\DoxyHorRuler{0}
+\hypertarget{md__n_p_autotoc_md45}{}\doxysubsection{\texorpdfstring{recv}{recv}}\label{md__n_p_autotoc_md45}
+{\bfseries{Description}}\+: Receives a Num\+Py array over the socket.
+
+{\bfseries{Arguments}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily bufsize (int, optional)}\+: The size of the buffer to use for receiving data. Defaults to 1024.
+\end{DoxyItemize}
+
+{\bfseries{Returns}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily np.\+ndarray}\+: The received Num\+Py array.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__n_p_autotoc_md47}{}\doxysubsection{\texorpdfstring{recv\+\_\+string\+\_\+as\+\_\+bytes}{recv\_string\_as\_bytes}}\label{md__n_p_autotoc_md47}
+{\bfseries{Description}}\+: Receives string data in the form of a byte array and returns the string.
+
+{\bfseries{Arguments}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily bufsize (int, optional)}\+: The size of the buffer to use for receiving data. Defaults to 1024.
+\end{DoxyItemize}
+
+{\bfseries{Returns}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily str}\+: The received string.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__n_p_autotoc_md49}{}\doxysubsection{\texorpdfstring{accept}{accept}}\label{md__n_p_autotoc_md49}
+{\bfseries{Description}}\+: Accepts a connection and returns an object of this class ({\ttfamily NP}) instead of {\ttfamily socket.\+socket}.
+
+{\bfseries{Returns}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily tuple}\+: Tuple containing a new {\ttfamily NP} object and the address of the client.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__n_p_autotoc_md51}{}\doxysubsection{\texorpdfstring{\+\_\+\+\_\+pack\+\_\+frame (private)}{\_\_pack\_frame (private)}}\label{md__n_p_autotoc_md51}
+{\bfseries{Description}}\+: Packs a Num\+Py array into a byte array with a header indicating its size.
+
+{\bfseries{Arguments}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily frame (np.\+ndarray)}\+: The Num\+Py array to pack.
+\end{DoxyItemize}
+
+{\bfseries{Returns}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily bytearray}\+: The packed byte array.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__n_p_autotoc_md53}{}\doxysection{\texorpdfstring{Examples}{Examples}}\label{md__n_p_autotoc_md53}
+\hypertarget{md__n_p_autotoc_md54}{}\doxysubsection{\texorpdfstring{Sending and Receiving Num\+Py Arrays}{Sending and Receiving NumPy Arrays}}\label{md__n_p_autotoc_md54}
+Server\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{server\_socket\ =\ NP(socket.AF\_INET,\ socket.SOCK\_STREAM)}
+\DoxyCodeLine{server\_socket.bind((\textcolor{stringliteral}{'localhost'},\ 12345))}
+\DoxyCodeLine{server\_socket.listen(1)}
+\DoxyCodeLine{}
+\DoxyCodeLine{client\_socket,\ client\_address\ =\ server\_socket.accept()}
+\DoxyCodeLine{array\_to\_send\ =\ np.array([1,\ 2,\ 3])}
+\DoxyCodeLine{client\_socket.sendall(array\_to\_send)}
+
+\end{DoxyCode}
+
+
+Client\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{client\_socket\ =\ NP(socket.AF\_INET,\ socket.SOCK\_STREAM)}
+\DoxyCodeLine{client\_socket.connect((\textcolor{stringliteral}{'localhost'},\ 12345))}
+\DoxyCodeLine{}
+\DoxyCodeLine{received\_array\ =\ client\_socket.recv()}
+\DoxyCodeLine{print(received\_array)\ \ \textcolor{comment}{\#\ Output\ should\ be\ [1,\ 2,\ 3]}}
+
+\end{DoxyCode}
+\hypertarget{md__n_p_autotoc_md55}{}\doxysubsection{\texorpdfstring{Sending and Receiving Strings}{Sending and Receiving Strings}}\label{md__n_p_autotoc_md55}
+Server\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{server\_socket\ =\ NP(socket.AF\_INET,\ socket.SOCK\_STREAM)}
+\DoxyCodeLine{server\_socket.bind((\textcolor{stringliteral}{'localhost'},\ 12345))}
+\DoxyCodeLine{server\_socket.listen(1)}
+\DoxyCodeLine{}
+\DoxyCodeLine{client\_socket,\ client\_address\ =\ server\_socket.accept()}
+\DoxyCodeLine{client\_socket.send\_string\_as\_bytes(\textcolor{stringliteral}{"{}Hello,\ client!"{}})}
+
+\end{DoxyCode}
+
+
+Client\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{client\_socket\ =\ NP(socket.AF\_INET,\ socket.SOCK\_STREAM)}
+\DoxyCodeLine{client\_socket.connect((\textcolor{stringliteral}{'localhost'},\ 12345))}
+\DoxyCodeLine{}
+\DoxyCodeLine{received\_string\ =\ client\_socket.recv\_string\_as\_bytes()}
+\DoxyCodeLine{print(received\_string)\ \ \textcolor{comment}{\#\ Output\ should\ be\ "{}Hello,\ client!"{}}}
+
+\end{DoxyCode}
+\hypertarget{md__n_p_autotoc_md56}{}\doxysubsection{\texorpdfstring{Handling Multiple Types of Data}{Handling Multiple Types of Data}}\label{md__n_p_autotoc_md56}
+Server\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{server\_socket\ =\ NP(socket.AF\_INET,\ socket.SOCK\_STREAM)}
+\DoxyCodeLine{server\_socket.bind((\textcolor{stringliteral}{'localhost'},\ 12345))}
+\DoxyCodeLine{server\_socket.listen(1)}
+\DoxyCodeLine{}
+\DoxyCodeLine{client\_socket,\ client\_address\ =\ server\_socket.accept()}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Send\ NumPy\ array}}
+\DoxyCodeLine{array\_to\_send\ =\ np.array([1,\ 2,\ 3])}
+\DoxyCodeLine{client\_socket.sendall(array\_to\_send)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Send\ String}}
+\DoxyCodeLine{client\_socket.send\_string\_as\_bytes(\textcolor{stringliteral}{"{}Hello,\ client!"{}})}
+
+\end{DoxyCode}
+
+
+Client\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{client\_socket\ =\ NP(socket.AF\_INET,\ socket.SOCK\_STREAM)}
+\DoxyCodeLine{client\_socket.connect((\textcolor{stringliteral}{'localhost'},\ 12345))}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Receive\ NumPy\ array}}
+\DoxyCodeLine{received\_array\ =\ client\_socket.recv()}
+\DoxyCodeLine{print(received\_array)\ \ \textcolor{comment}{\#\ Output\ should\ be\ [1,\ 2,\ 3]}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#\ Receive\ String}}
+\DoxyCodeLine{received\_string\ =\ client\_socket.recv\_string\_as\_bytes()}
+\DoxyCodeLine{print(received\_string)\ \ \textcolor{comment}{\#\ Output\ should\ be\ "{}Hello,\ client!"{}}}
+
+\end{DoxyCode}
+
+
+Remember to close the sockets once communication is complete. 

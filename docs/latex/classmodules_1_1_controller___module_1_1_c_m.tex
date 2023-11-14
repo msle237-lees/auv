@@ -1,0 +1,98 @@
+\doxysection{modules.\+Controller\+\_\+\+Module.\+CM Class Reference}
+\hypertarget{classmodules_1_1_controller___module_1_1_c_m}{}\label{classmodules_1_1_controller___module_1_1_c_m}\index{modules.Controller\_Module.CM@{modules.Controller\_Module.CM}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodules_1_1_controller___module_1_1_c_m_a1645ed0ccf44cf6b12c58e2c9e235471}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, int num\+\_\+of\+\_\+axis=6)
+\item 
+\mbox{\hyperlink{classmodules_1_1_controller___module_1_1_c_m_a2b6496d820af50cca4f4848412f16ed6}{init\+\_\+joystick}} (self)
+\item 
+\mbox{\hyperlink{classmodules_1_1_controller___module_1_1_c_m_ab80fdb1c27ed42119cd2ab2747a525c5}{get\+\_\+data}} (self)
+\item 
+\mbox{\hyperlink{classmodules_1_1_controller___module_1_1_c_m_a88f9a3c72a83b588b160ebfaf4c43e37}{print}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodules_1_1_controller___module_1_1_c_m_aead5e85077ee147f64abd38676a1bc54}{joystick}}
+\item 
+\mbox{\hyperlink{classmodules_1_1_controller___module_1_1_c_m_a33cc4c28ad78ea83cecca03e14a1011e}{data}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}## CM (Control Mapping) Class
+
+The `CM` class is used to read input data from an RC flight controller 
+and store it as a numpy array.
+
+### Attributes
+- `joystick`: The pygame Joystick object.
+- `data`: A numpy array that stores joystick data.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodules_1_1_controller___module_1_1_c_m_a1645ed0ccf44cf6b12c58e2c9e235471}\label{classmodules_1_1_controller___module_1_1_c_m_a1645ed0ccf44cf6b12c58e2c9e235471} 
+\index{modules.Controller\_Module.CM@{modules.Controller\_Module.CM}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!modules.Controller\_Module.CM@{modules.Controller\_Module.CM}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily modules.\+Controller\+\_\+\+Module.\+CM.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int }]{num\+\_\+of\+\_\+axis = {\ttfamily 6} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize the CM object and call the method to initialize the joystick.
+
+### Parameters
+- `num_of_axis`: Number of axes to initialize in the data array. Default is 6.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodules_1_1_controller___module_1_1_c_m_ab80fdb1c27ed42119cd2ab2747a525c5}\label{classmodules_1_1_controller___module_1_1_c_m_ab80fdb1c27ed42119cd2ab2747a525c5} 
+\index{modules.Controller\_Module.CM@{modules.Controller\_Module.CM}!get\_data@{get\_data}}
+\index{get\_data@{get\_data}!modules.Controller\_Module.CM@{modules.Controller\_Module.CM}}
+\doxysubsubsection{\texorpdfstring{get\_data()}{get\_data()}}
+{\footnotesize\ttfamily modules.\+Controller\+\_\+\+Module.\+CM.\+get\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Update the `data` array with the latest joystick values.
+
+### Returns
+- `data`: The updated data array.
+\end{DoxyVerb}
+ \Hypertarget{classmodules_1_1_controller___module_1_1_c_m_a2b6496d820af50cca4f4848412f16ed6}\label{classmodules_1_1_controller___module_1_1_c_m_a2b6496d820af50cca4f4848412f16ed6} 
+\index{modules.Controller\_Module.CM@{modules.Controller\_Module.CM}!init\_joystick@{init\_joystick}}
+\index{init\_joystick@{init\_joystick}!modules.Controller\_Module.CM@{modules.Controller\_Module.CM}}
+\doxysubsubsection{\texorpdfstring{init\_joystick()}{init\_joystick()}}
+{\footnotesize\ttfamily modules.\+Controller\+\_\+\+Module.\+CM.\+init\+\_\+joystick (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize the pygame library and the joystick.
+
+This method will keep retrying until a joystick is found.
+\end{DoxyVerb}
+ \Hypertarget{classmodules_1_1_controller___module_1_1_c_m_a88f9a3c72a83b588b160ebfaf4c43e37}\label{classmodules_1_1_controller___module_1_1_c_m_a88f9a3c72a83b588b160ebfaf4c43e37} 
+\index{modules.Controller\_Module.CM@{modules.Controller\_Module.CM}!print@{print}}
+\index{print@{print}!modules.Controller\_Module.CM@{modules.Controller\_Module.CM}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily modules.\+Controller\+\_\+\+Module.\+CM.\+print (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Print the current state of the `data` array.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classmodules_1_1_controller___module_1_1_c_m_a33cc4c28ad78ea83cecca03e14a1011e}\label{classmodules_1_1_controller___module_1_1_c_m_a33cc4c28ad78ea83cecca03e14a1011e} 
+\index{modules.Controller\_Module.CM@{modules.Controller\_Module.CM}!data@{data}}
+\index{data@{data}!modules.Controller\_Module.CM@{modules.Controller\_Module.CM}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily modules.\+Controller\+\_\+\+Module.\+CM.\+data}
+
+\Hypertarget{classmodules_1_1_controller___module_1_1_c_m_aead5e85077ee147f64abd38676a1bc54}\label{classmodules_1_1_controller___module_1_1_c_m_aead5e85077ee147f64abd38676a1bc54} 
+\index{modules.Controller\_Module.CM@{modules.Controller\_Module.CM}!joystick@{joystick}}
+\index{joystick@{joystick}!modules.Controller\_Module.CM@{modules.Controller\_Module.CM}}
+\doxysubsubsection{\texorpdfstring{joystick}{joystick}}
+{\footnotesize\ttfamily modules.\+Controller\+\_\+\+Module.\+CM.\+joystick}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+modules/\mbox{\hyperlink{_controller___module_8py}{Controller\+\_\+\+Module.\+py}}\end{DoxyCompactItemize}

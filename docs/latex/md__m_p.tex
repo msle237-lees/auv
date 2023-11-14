@@ -1,0 +1,123 @@
+\chapter{MP Class Documentation}
+\hypertarget{md__m_p}{}\label{md__m_p}\index{MP Class Documentation@{MP Class Documentation}}
+\label{md__m_p_autotoc_md14}%
+\Hypertarget{md__m_p_autotoc_md14}%
+ \hypertarget{md__m_p_autotoc_md15}{}\doxysection{\texorpdfstring{Overview}{Overview}}\label{md__m_p_autotoc_md15}
+The {\ttfamily MP} class provides a model for simulating the thruster configuration and controls for a motion platform, specifically tailored for Autonomous Underwater Vehicles (AUVs). It comes with two types of thruster matrices, one for real-\/world operation and another for simulation. It also provides functionalities to update thruster outputs based on desired vehicle movements, map the thruster data to specific output ranges, and print out the current thruster data.
+
+\DoxyHorRuler{0}
+\hypertarget{md__m_p_autotoc_md17}{}\doxysection{\texorpdfstring{Table of Contents}{Table of Contents}}\label{md__m_p_autotoc_md17}
+
+\begin{DoxyEnumerate}
+\item Initialization
+\item Methods
+\begin{DoxyEnumerate}
+\item create\+\_\+thruster\+\_\+matrix\+\_\+real\+\_\+world
+\item create\+\_\+thruster\+\_\+matrix\+\_\+simulation
+\item update
+\item map\+\_\+data
+\item print\+\_\+out
+\item run
+\end{DoxyEnumerate}
+\item Examples
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+\hypertarget{md__m_p_autotoc_md19}{}\doxysection{\texorpdfstring{Initialization}{Initialization}}\label{md__m_p_autotoc_md19}
+\hypertarget{md__m_p_autotoc_md20}{}\doxysubsection{\texorpdfstring{$<$tt$>$\+\_\+\+\_\+init\+\_\+\+\_\+(self, simulation=\+False)$<$/tt$>$}{<tt>\_\_init\_\_(self, simulation=False)</tt>}}\label{md__m_p_autotoc_md20}
+Initializes the {\ttfamily MP} class, and sets up the appropriate thruster matrix for either real-\/world operation or simulation based on the {\ttfamily simulation} parameter.
+
+{\bfseries{Parameters\+:}}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily simulation (bool)}\+: Specifies whether to initialize the real-\/world or simulation thruster matrix. Default is {\ttfamily False} for real-\/world operation.
+\end{DoxyItemize}
+
+{\bfseries{Example\+:}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mp\ =\ MP(simulation=\textcolor{keyword}{True})}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__m_p_autotoc_md22}{}\doxysection{\texorpdfstring{Methods}{Methods}}\label{md__m_p_autotoc_md22}
+\hypertarget{md__m_p_autotoc_md23}{}\doxysubsection{\texorpdfstring{$<$tt$>$create\+\_\+thruster\+\_\+matrix\+\_\+real\+\_\+world()$<$/tt$>$}{<tt>create\_thruster\_matrix\_real\_world()</tt>}}\label{md__m_p_autotoc_md23}
+Returns a thruster matrix for real-\/world operation.
+
+{\bfseries{Returns\+:}}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily np.\+array}\+: The real-\/world thruster matrix.
+\end{DoxyItemize}\hypertarget{md__m_p_autotoc_md24}{}\doxysubsection{\texorpdfstring{$<$tt$>$create\+\_\+thruster\+\_\+matrix\+\_\+simulation()$<$/tt$>$}{<tt>create\_thruster\_matrix\_simulation()</tt>}}\label{md__m_p_autotoc_md24}
+Returns a thruster matrix for simulation.
+
+{\bfseries{Returns\+:}}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily np.\+array}\+: The simulation thruster matrix.
+\end{DoxyItemize}\hypertarget{md__m_p_autotoc_md25}{}\doxysubsection{\texorpdfstring{$<$tt$>$update(self, data)$<$/tt$>$}{<tt>update(self, data)</tt>}}\label{md__m_p_autotoc_md25}
+Updates the thruster outputs based on desired vehicle movements.
+
+{\bfseries{Parameters\+:}}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily data (list)}\+: A list of desired movements in the form of \mbox{[}X, Y, Z, Roll, Pitch, Yaw\mbox{]}.
+\end{DoxyItemize}
+
+{\bfseries{Returns\+:}}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily np.\+array}\+: The updated thruster outputs.
+\end{DoxyItemize}\hypertarget{md__m_p_autotoc_md26}{}\doxysubsection{\texorpdfstring{$<$tt$>$map\+\_\+data()$<$/tt$>$}{<tt>map\_data()</tt>}}\label{md__m_p_autotoc_md26}
+Maps the thruster outputs to a specific range. Useful for transforming thruster values to PWM signals.
+
+{\bfseries{Returns\+:}}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily np.\+array}\+: The mapped thruster outputs.
+\end{DoxyItemize}\hypertarget{md__m_p_autotoc_md27}{}\doxysubsection{\texorpdfstring{$<$tt$>$print\+\_\+out()$<$/tt$>$}{<tt>print\_out()</tt>}}\label{md__m_p_autotoc_md27}
+Prints out the current thruster outputs.\hypertarget{md__m_p_autotoc_md28}{}\doxysubsection{\texorpdfstring{$<$tt$>$run()$<$/tt$>$}{<tt>run()</tt>}}\label{md__m_p_autotoc_md28}
+Runs the main loop, prompting the user for movement data and updating the thruster outputs accordingly.
+
+\DoxyHorRuler{0}
+\hypertarget{md__m_p_autotoc_md30}{}\doxysection{\texorpdfstring{Examples}{Examples}}\label{md__m_p_autotoc_md30}
+\hypertarget{md__m_p_autotoc_md31}{}\doxysubsection{\texorpdfstring{Example 1\+: Create an MP object for simulation}{Example 1: Create an MP object for simulation}}\label{md__m_p_autotoc_md31}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mp\ =\ MP(simulation=\textcolor{keyword}{True})}
+
+\end{DoxyCode}
+\hypertarget{md__m_p_autotoc_md32}{}\doxysubsection{\texorpdfstring{Example 2\+: Update thruster data}{Example 2: Update thruster data}}\label{md__m_p_autotoc_md32}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mp.update([1,\ 0,\ 0,\ 0,\ 0,\ 0])}
+
+\end{DoxyCode}
+\hypertarget{md__m_p_autotoc_md33}{}\doxysubsection{\texorpdfstring{Example 3\+: Print the current thruster outputs}{Example 3: Print the current thruster outputs}}\label{md__m_p_autotoc_md33}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mp.print\_out()}
+
+\end{DoxyCode}
+\hypertarget{md__m_p_autotoc_md34}{}\doxysubsection{\texorpdfstring{Example 4\+: Run the main loop}{Example 4: Run the main loop}}\label{md__m_p_autotoc_md34}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\ \ \ \ mp\ =\ MP()}
+\DoxyCodeLine{\ \ \ \ mp.run()}
+
+\end{DoxyCode}
+
+
+In this example, the program will continuously prompt the user to enter the desired movements. After entering the values, the updated thruster outputs will be printed to the console.
+
+By following this documentation, you can efficiently utilize the {\ttfamily MP} class for modeling the thruster configurations and controls of AUVs. 
