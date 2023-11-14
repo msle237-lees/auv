@@ -158,6 +158,24 @@ class Movement_Package:
         """
         Create the thruster matrix for either a real-world or simulated scenario.
 
+        This function generates a thruster matrix for an autonomous underwater vehicle (AUV). 
+        The matrix is structured with the number of rows equal to the number of thrusters 
+        (`num_thrusters`) and the number of columns equal to the degrees of freedom (`num_dof`).
+
+        The first four rows correspond to the horizontal thrusters:
+        - Each row represents the direction vector (columns 1-3) and the moment (columns 4-6)
+            for each horizontal thruster.
+        - The direction and moment are calculated based on the thruster's angle, which incorporates
+            a 90-degree rotation for each thruster.
+
+        The next four rows correspond to the vertical thrusters:
+        - Each row represents the direction vector (columns 1-3), which points directly downwards 
+            (or upwards in simulation), and the moment (columns 4-6).
+        - The direction and moment are derived similarly to the horizontal thrusters.
+
+        The exact values in the matrix depend on the AUV's configuration, such as the angles and
+        distances of the thrusters from the center of mass.
+
         @param simulation bool: If True, creates the matrix for simulation. Otherwise, for the real world.
         @return np.ndarray: The thruster matrix for the specified scenario.
         """
