@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #000000;
+}
+
+.header {
+  width: 100%;
+  height: 10vh;
+  background: url(../imgs/banner.png);
+  background-size: cover;
+  background-position: center;
+}
+
+.camera-viewer {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.camera-feeds {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.camera-viewer img {
+  width: 50%;
+  height: auto;
+  object-fit: cover;
+  transform: scaleX(-1); /* Flip the image horizontally */
+  display: none; /* Initially hide the images */
+}
+
+.camera-controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.camera-controls div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.camera-controls button,
+.camera-controls input {
+  margin: 5px;
+  padding: 10px 20px;
+  border: 2px solid #333;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.camera-controls input {
+  width: 300px;
+  text-align: center;
+}
+
+.camera-controls button:hover {
+  background: #333;
+  color: #fff;
+}
+
+.data-viewer {
+  width: 100%;
+  height: 80vh;
+  background: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+.tab-button:hover {
+  opacity: 1;
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+  border-top: none;
+}
+
+.log-viewer {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.log-content {
+  width: 70%;
+  overflow-y: auto;
+  height: 70%;
+  background: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.file-explorer {
+  width: 30%;
+  overflow-y: auto;
+  height: 70%;
+  background: #333;
+  color: #fff;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+.file-explorer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.file-explorer ul li {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.file-explorer ul li:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  width: 100%;
+  height: 10vh;
+  background: #333;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.footer button:hover {
+  background: #fff;
+  color: #333;
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AUV UI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+    </div>
+    <div class="camera-viewer" id="camera-viewer">
+        <div class="camera-feeds">
+            <img id="camera-feed-0" src="" alt="Camera 1" style="display: none;">
+            <img id="camera-feed-1" src="" alt="Camera 2" style="display: none;">
+        </div>
+        <div class="camera-controls">
+            <!-- Camera 1 controls -->
+            <div>
+                <button id="toggle-camera-0" onclick="toggleCamera(0)">Toggle Camera 1</button>
+                <input type="text" id="camera1-source" placeholder="External source URL for Camera 1">
+                <button onclick="changeCameraSource(0)">Change Source</button>
+            </div>
+            <!-- Camera 2 controls -->
+            <div>
+                <button id="toggle-camera-1" onclick="toggleCamera(1)">Toggle Camera 2</button>
+                <input type="text" id="camera2-source" placeholder="External source URL for Camera 2">
+                <button onclick="changeCameraSource(1)">Change Source</button>
+            </div>
+        </div>
+    </div>      
+    <div class="data-viewer" id="data-viewer" style="display: none;">
+        <div class="tab-container">
+            <!-- Tab buttons -->
+            <button class="tab-button" onclick="openTab(event, 'Graphs')">Graphs</button>
+            <button class="tab-button" onclick="openTab(event, 'Tables')">Tables</button>
+            <!-- Add more tabs as needed -->
+        </div>
+    
+        <!-- Tab content -->
+        <div id="Graphs" class="tab-content">
+            <!-- Graphs content goes here -->
+        </div>
+    
+        <div id="Tables" class="tab-content">
+            <!-- Tables content goes here -->
+        </div>
+    </div>
+    <div class="log-viewer" id="log-viewer" style="display: none;">
+        <div class="file-explorer">
+            <ul>
+                <li onclick="showLog('CameraViewer')">Camera Viewer Logs</li>
+                <li onclick="showLog('HardwarePackage')">Hardware Package Logs</li>
+                <li onclick="showLog('NeuralNetworkPackage')">Neural Network Package Logs</li>
+                <li onclick="showLog('MovementPackage')">Movement Package Logs</li>
+                <li onclick="showLog('ControllerPackage')">Controller Package Logs</li>
+            </ul>
+        </div>
+        <div class="log-content">
+            <!-- Log details will be displayed here -->
+        </div>
+    </div>
+    <div class="footer">
+        <button class="button" onclick="showDiv('camera-viewer')" type="button">Camera Viewer</button>
+        <button class="button" onclick="showDiv('data-viewer')" type="button">Data Viewer</button>
+        <button class="button" onclick="showDiv('log-viewer')" type="button">Log Viewer</button>
+        <button onclick="startHardware()">Start Hardware</button>
+        <button onclick="stopHardware()">Stop Hardware</button>
+    </div>
+</body>
+</html>
