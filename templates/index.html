@@ -1,70 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>AUV UI</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-</head>
-<body>
-    <div class="header">
-    </div>
-    <div class="camera-viewer" id="camera-viewer">
-        <div class="camera-feeds">
-            <img id="camera-feed-0" src="" alt="Camera 1" style="display: none;">
-            <img id="camera-feed-1" src="" alt="Camera 2" style="display: none;">
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>AUV UI</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <div class="tabs">
+            <div class="tab" id="tab1">Home</div>
+            <div class="tab" id="tab2">Data Viewer</div>
+            <div class="tab" id="tab3">Log Viewer</div>
         </div>
-        <div class="camera-controls">
-            <!-- Camera 1 controls -->
-            <div>
-                <button id="toggle-camera-0" onclick="toggleCamera(0)">Toggle Camera 1</button>
-                <input type="text" id="camera1-source" placeholder="External source URL for Camera 1">
-                <button onclick="changeCameraSource(0)">Change Source</button>
+        <div class="tab-content" id="tab1-content">
+            <div class="camera-feeds">
+                <div class="camera" id="camera0">
+                    <img src="/video_feed/0" alt="Camera 0 Feed" />
+                </div>
+                <div class="camera" id="camera1">
+                    <img src="/video_feed/1" alt="Camera 1 Feed" />
+                </div>
             </div>
-            <!-- Camera 2 controls -->
-            <div>
-                <button id="toggle-camera-1" onclick="toggleCamera(1)">Toggle Camera 2</button>
-                <input type="text" id="camera2-source" placeholder="External source URL for Camera 2">
-                <button onclick="changeCameraSource(1)">Change Source</button>
+            <div class="camera-controls">
+                <button class="start-sub" onclick="StartSub()" type="button">Start Sub</button>
+                <button class="stop-sub" onclick="StopSub()" type="button">Stop Sub</button>
+                <button class="start-recording" onclick="startRecording()" type="button">Start Recording</button>
+                <button class="stop-recording" onclick="stopRecording()" type="button">Stop Recording</button>
+            </div>
+            <div class="quick-data">
+                <canvas id="chartDepth"></canvas>
+                <canvas id="chartBattery"></canvas>
+                <canvas id="chartCurrent"></canvas>
             </div>
         </div>
-    </div>      
-    <div class="data-viewer" id="data-viewer" style="display: none;">
-        <div class="tab-container">
-            <!-- Tab buttons -->
-            <button class="tab-button" onclick="openTab(event, 'Graphs')">Graphs</button>
-            <button class="tab-button" onclick="openTab(event, 'Tables')">Tables</button>
-            <!-- Add more tabs as needed -->
+        <div class="tab-content" id="tab2-content">
+            <div class="data-viewer">
+                <div class="charts">
+                    <div class="row">
+                        <canvas id="chartDepth1"></canvas>
+                        <canvas id="chartOTemp"></canvas>
+                        <canvas id="chartTTemp"></canvas>
+                    </div>
+                    <div class="row">
+                        <canvas id="chartHumidity"></canvas>
+                        <canvas id="chartPressure"></canvas>
+                        <canvas id="chartVoltage"></canvas>
+                    </div>
+                    <div class="row">
+                        <canvas id="chartCurrent1"></canvas>
+                        <canvas id="chartB1Voltage"></canvas>
+                        <canvas id="chartB2Voltage"></canvas>
+                    </div>
+                    <div class="row">
+                        <canvas id="chartB3Voltage"></canvas>
+                        <canvas id="chartB1Current"></canvas>
+                        <canvas id="chartB2Current"></canvas>
+                    </div>
+                    <div class="row">
+                        <canvas id="chartB3Current"></canvas>
+                        <canvas id="temp"></canvas>
+                        <canvas id="temp2"></canvas>
+                    </div>
+                </div>
+                <div class="table-search">
+                    <input type="text" id="searchInput" placeholder="Search...">
+                </div>
+                <div class="table">
+                    <table id="data-table">
+                        <tr>
+                            <th onclick="sortTable(0)">Time</th>
+                            <th onclick="sortTable(1)">Depth</th>
+                            <th onclick="sortTable(2)">Orin Temperature</th>
+                            <th onclick="sortTable(3)">Temp Temperature</th>
+                            <th onclick="sortTable(4)">Humidity</th>
+                            <th onclick="sortTable(5)">Pressure</th>
+                            <th onclick="sortTable(6)">Voltage</th>
+                            <th onclick="sortTable(7)">Current</th>
+                            <th onclick="sortTable(8)">Battery 1 Voltage</th>
+                            <th onclick="sortTable(9)">Battery 2 Voltage</th>
+                            <th onclick="sortTable(10)">Battery 3 Voltage</th>
+                            <th onclick="sortTable(11)">Battery 1 Current</th>
+                            <th onclick="sortTable(12)">Battery 2 Current</th>
+                            <th onclick="sortTable(13)">Battery 3 Current</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-    
-        <!-- Tab content -->
-        <div id="Graphs" class="tab-content">
-            <!-- Graphs content goes here -->
-        </div>
-    
-        <div id="Tables" class="tab-content">
-            <!-- Tables content goes here -->
-        </div>
-    </div>
-    <div class="log-viewer" id="log-viewer" style="display: none;">
-        <div class="file-explorer">
-            <ul>
-                <li onclick="showLog('CameraViewer')">Camera Viewer Logs</li>
-                <li onclick="showLog('HardwarePackage')">Hardware Package Logs</li>
-                <li onclick="showLog('NeuralNetworkPackage')">Neural Network Package Logs</li>
-                <li onclick="showLog('MovementPackage')">Movement Package Logs</li>
-                <li onclick="showLog('ControllerPackage')">Controller Package Logs</li>
-            </ul>
-        </div>
-        <div class="log-content">
-            <!-- Log details will be displayed here -->
-        </div>
-    </div>
-    <div class="footer">
-        <button class="button" onclick="showDiv('camera-viewer')" type="button">Camera Viewer</button>
-        <button class="button" onclick="showDiv('data-viewer')" type="button">Data Viewer</button>
-        <button class="button" onclick="showDiv('log-viewer')" type="button">Log Viewer</button>
-        <button onclick="startHardware()">Start Hardware</button>
-        <button onclick="stopHardware()">Stop Hardware</button>
-    </div>
-</body>
-</html>
+        <div class="tab-content" id="tab3-content">
+            <div class="file-tree" id="fileTree"></div>
+            <div class="file-viewer" id="fileViewer"></div>
+        </div>    
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>  
+    </body>
+    </html>
