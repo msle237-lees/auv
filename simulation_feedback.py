@@ -1,82 +1,53 @@
-from flask import Flask, send_file, Response
-import os
-from time import sleep
-import keyboard
+from flask import Flask, request, Response
 import threading
+import io
 
 app = Flask(__name__)
 
-front_cam_folder = 'C:/Users/ksuau/AppData/LocalLow/Aquapack/Robotics/RoboSubSim/FrontCam'
-down_cam_folder = 'C:/Users/ksuau/AppData/LocalLow/Aquapack/Robotics/RoboSubSim/DownCam'
+# Locks for thread-safe operations on the image data
+image_locks = {
+    'front': threading.Lock(),
+    'down': threading.Lock()
+}
 
-def get_latest_image(folder_path):
-    try:
-        # List all files and sort them by name (assuming the names contain the index)
-        files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)]
-        files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
-        if files:
-            return files[0]  # Return the latest file
-        else:
-            return None
-    except Exception as e:
-        print(f"Error getting the latest image: {e}")
-        return None
+# In-memory byte arrays to store the latest images
+latest_images = {
+    'front': io.BytesIO(),
+    'down': io.BytesIO()
+}
 
-@app.route('/front_cam_feed')
-def front_cam_feed():
-    def generate():
-        while True:
-            # Get the latest image
-            latest_image_path = get_latest_image(front_cam_folder)
-            if latest_image_path:
-                with open(latest_image_path, 'rb') as f:
-                    frame = f.read()
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-            sleep(0.1)  # Adjust the frame rate as needed
+@app.route('/upload_image', methods=['POST'])
+def upload_image():
+    camera_type = request.args.get('camera', 'front')  # default to 'front' if not specified
+    if camera_type not in latest_images:
+        return "Invalid camera type", 400
 
-    return Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-@app.route('/down_cam_feed')
-def down_cam_feed():
-    def generate():
-        while True:
-            # Get the latest image
-            latest_image_path = get_latest_image(down_cam_folder)
-            if latest_image_path:
-                with open(latest_image_path, 'rb') as f:
-                    frame = f.read()
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-            sleep(0.1)  # Adjust the frame rate as needed
-
-    return Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-# Flag to control the spacebar pressing thread
-pressing_spacebar = False
-
-def press_spacebar_periodically():
-    global pressing_spacebar
-    while pressing_spacebar:
-        keyboard.press_and_release('space')
-        sleep(0.01)  # Sleep for 10ms
-
-@app.route('/start_pressing_spacebar')
-def start_pressing_spacebar():
-    global pressing_spacebar
-    if not pressing_spacebar:
-        pressing_spacebar = True
-        thread = threading.Thread(target=press_spacebar_periodically)
-        thread.start()
-        return "Started pressing spacebar every 10ms."
+    file = request.files['image']
+    if file:
+        with image_locks[camera_type]:
+            file.save(latest_images[camera_type])
+            latest_images[camera_type].seek(0)  # Rewind the file pointer to the start
+        return "Image received", 200
     else:
-        return "Already pressing spacebar."
+        return "No selected file", 400
 
-@app.route('/stop_pressing_spacebar')
-def stop_pressing_spacebar():
-    global pressing_spacebar
-    pressing_spacebar = False
-    return "Stopped pressing spacebar."
+@app.route('/camera_feed/<camera_type>')
+def camera_feed(camera_type):
+    if camera_type not in latest_images:
+        return "Invalid camera type", 400
+
+    def generate():
+        while True:
+            with image_locks[camera_type]:
+                frame = latest_images[camera_type].getvalue()
+            if frame:
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+            else:
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + b'No Image' + b'\r\n\r\n')
+    
+    return Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

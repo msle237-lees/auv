@@ -906,8 +906,8 @@ def index():
     return render_template('index.html')
 
 # Camera instances
-camera0 = CameraPackage('192.168.0.103:5000/front_cam_feed')
-camera1 = CameraPackage('192.168.0.103:5000/down_cam_feed')
+camera0 = CameraPackage('http://192.168.0.103:5000/front_cam_feed')
+camera1 = CameraPackage('http://192.168.0.103:5000/down_cam_feed')
 camera_logger.info('Camera instances initialized')
 
 @app.route('/start_camera/<int:camera_index>')
