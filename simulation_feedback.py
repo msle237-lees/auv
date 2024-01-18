@@ -25,6 +25,8 @@ def upload_image():
     file = request.files['image']
     if file:
         with image_locks[camera_type]:
+            latest_images[camera_type].seek(0)  # Move to the start of the BytesIO object
+            latest_images[camera_type].truncate(0)  # Clear previous image
             file.save(latest_images[camera_type])
             latest_images[camera_type].seek(0)  # Rewind the file pointer to the start
         return "Image received", 200
@@ -45,7 +47,7 @@ def camera_feed(camera_type):
                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
             else:
                 yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + b'No Image' + b'\r\n\r\n')
+                       b'Content-Type: image/jpeg\r\n\r\n' + b'No Image' + b'\r\n\r\n')  # Serve a placeholder or an empty frame
     
     return Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
