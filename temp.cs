@@ -59,3 +59,20 @@ public class RobotCamera : MonoBehaviour {
 
     // ... (rest of your methods)
 }
+
+
+private IEnumerator CaptureAndSendContinuously() {
+        while (true) {
+            // Assuming you want to capture and send images from both cameras continuously
+            StartCoroutine(CaptureAndSend(frontCamera, flaskEndpoint + "?camera=front", frontCounter));
+            frontCounter++;
+            StartCoroutine(CaptureAndSend(downCamera, flaskEndpoint + "?camera=down", downCounter));
+            downCounter++;
+
+            yield return new WaitForSeconds(captureInterval);
+        }
+    }
+
+    private IEnumerator CaptureAndSend(Camera cam, string endpoint, int id) {
+        // ... (existing CaptureAndSend code)
+    }
