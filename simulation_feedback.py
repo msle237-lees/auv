@@ -19,8 +19,6 @@ latest_images = {
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     camera_type = request.args.get('camera', 'front')  # default to 'front' if not specified
-    if camera_type not in latest_images:
-        return "Invalid camera type", 400
 
     file = request.files['image']
     if file:
