@@ -1,98 +1,187 @@
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>AUV UI</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    </head>
-    <body>
-        <div class="tabs">
-            <div class="tab" id="tab1">Home</div>
-            <div class="tab" id="tab2">Data Viewer</div>
-            <div class="tab" id="tab3">Log Viewer</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUV Interface</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body onload="setDefaultMode()">
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'CameraFeeds')">Camera Feeds</button>
+        <button class="tablinks" onclick="openTab(event, 'DataView')">Data View</button>
+        <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+        <!-- Dark Mode Toggle -->
+        <label class="switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
+    <!-- Tab content for Camera Feeds -->
+    <div id="CameraFeeds" class="tabcontent">
+        <div class="camera-feed">
+            <img src="/video_feed/0"></img>
+            <img src="/video_feed/1"></img>
         </div>
-        <div class="tab-content" id="tab1-content">
-            <div class="camera-feeds">
-                <div class="camera" id="camera0">
-                    <img src="/video_feed/0" alt="Camera 0 Feed" />
-                </div>
-                <div class="camera" id="camera1">
-                    <img src="/video_feed/1" alt="Camera 1 Feed" />
-                </div>
-            </div>
-            <div class="camera-controls">
-                <button class="start-sub" onclick="StartSub()" type="button">Start Sub</button>
-                <button class="stop-sub" onclick="StopSub()" type="button">Stop Sub</button>
-                <button class="start-recording" onclick="startRecording()" type="button">Start Recording</button>
-                <button class="stop-recording" onclick="stopRecording()" type="button">Stop Recording</button>
-            </div>
-            <div class="quick-data">
-                <canvas id="chartDepth"></canvas>
-                <canvas id="chartBattery"></canvas>
-                <canvas id="chartCurrent"></canvas>
-            </div>
-        </div>
-        <div class="tab-content" id="tab2-content">
-            <div class="data-viewer">
-                <div class="charts">
-                    <div class="row">
-                        <canvas id="chartDepth1"></canvas>
-                        <canvas id="chartOTemp"></canvas>
-                        <canvas id="chartTTemp"></canvas>
-                    </div>
-                    <div class="row">
-                        <canvas id="chartHumidity"></canvas>
-                        <canvas id="chartPressure"></canvas>
-                        <canvas id="chartVoltage"></canvas>
-                    </div>
-                    <div class="row">
-                        <canvas id="chartCurrent1"></canvas>
-                        <canvas id="chartB1Voltage"></canvas>
-                        <canvas id="chartB2Voltage"></canvas>
-                    </div>
-                    <div class="row">
-                        <canvas id="chartB3Voltage"></canvas>
-                        <canvas id="chartB1Current"></canvas>
-                        <canvas id="chartB2Current"></canvas>
-                    </div>
-                    <div class="row">
-                        <canvas id="chartB3Current"></canvas>
-                        <canvas id="temp"></canvas>
-                        <canvas id="temp2"></canvas>
-                    </div>
-                </div>
-                <div class="table-search">
-                    <input type="text" id="searchInput" placeholder="Search...">
-                </div>
-                <div class="table">
-                    <table id="data-table">
-                        <tr>
-                            <th onclick="sortTable(0)">Time</th>
-                            <th onclick="sortTable(1)">Depth</th>
-                            <th onclick="sortTable(2)">Orin Temperature</th>
-                            <th onclick="sortTable(3)">Temp Temperature</th>
-                            <th onclick="sortTable(4)">Humidity</th>
-                            <th onclick="sortTable(5)">Pressure</th>
-                            <th onclick="sortTable(6)">Voltage</th>
-                            <th onclick="sortTable(7)">Current</th>
-                            <th onclick="sortTable(8)">Battery 1 Voltage</th>
-                            <th onclick="sortTable(9)">Battery 2 Voltage</th>
-                            <th onclick="sortTable(10)">Battery 3 Voltage</th>
-                            <th onclick="sortTable(11)">Battery 1 Current</th>
-                            <th onclick="sortTable(12)">Battery 2 Current</th>
-                            <th onclick="sortTable(13)">Battery 3 Current</th>
-                        </tr>
-                    </table>
-                </div>
+        <div class="footer">
+            <div class="element">
+                <button class="control-button" onclick="sendCommand('start-real-all')">Start All</button>
+                <button class="control-button" onclick="sendCommand('stop-real-all')">Stop All</button>
+                <button class="control-button" onclick="sendCommand('start-hardware')">Start Hardware</button>
+                <button class="control-button" onclick="sendCommand('stop-hardware')">Stop Hardware</button>
+                <button class="control-button" onclick="sendCommand('start-simulation')">Start Simulation</button>
+                <button class="control-button" onclick="sendCommand('stop-simulation')">Stop Simulation</button>
             </div>
         </div>
-        <div class="tab-content" id="tab3-content">
-            <div class="file-tree" id="fileTree"></div>
-            <div class="file-viewer" id="fileViewer"></div>
-        </div>    
-        <script src="{{ url_for('static', filename='js/index.js') }}"></script>  
-    </body>
-    </html>
+    </div>
+
+    <!-- Tab content for Data View -->
+    <div id="DataView" class="tabcontent">
+        <!-- Internal tabs for Data View -->
+        <div class="tab">
+            <button class="tablinks" onclick="openDataTab(event, 'InputData')">Input Data</button>
+            <button class="tablinks" onclick="openDataTab(event, 'OutputData')">Output Data</button>
+            <button class="tablinks" onclick="openDataTab(event, 'SensorsData')">Sensors Data</button>
+        </div>
+        <div class="header">
+            <button class="download-button" onclick="downloadData()">Download</button>
+        </div>
+        <!-- Content for internal tabs -->
+        <div id="InputData" class="datacontent">
+            <div class="data">
+                <canvas id="inputChart"></canvas>
+                <script>
+                    // Fetch the data from the Flask endpoint
+                    fetch('/get-input')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Process the data
+                            const labels = data.map(item => item.Date);
+                            const xValues = data.map(item => item.X);
+                            const yValues = data.map(item => item.Y);
+                            const zValues = data.map(item => item.Z);
+                            const rollValues = data.map(item => item.Roll);
+                            const pitchValues = data.map(item => item.Pitch);
+                            const yawValues = data.map(item => item.Yaw);
+                            const clawValues = data.map(item => item.Claw);
+                            const SBValues = data.map(item => item.SB);
+                            
+                            // Prepare data for the chart
+                            const chartData = {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: 'X',
+                                        data: xValues,
+                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Y',
+                                        data: yValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Z',
+                                        data: zValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Roll',
+                                        data: rollValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Pitch',
+                                        data: pitchValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Yaw',
+                                        data: yawValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Claw',
+                                        data: clawValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'KS',
+                                        data: KSValues,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    }
+                                ]
+                            };
+                            
+                            // Configurations for the chart
+                            const config = {
+                                type: 'bar',
+                                data: chartData,
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            suggestedMin: -1,
+                                            suggestedMax: 1
+                                        }
+                                    }
+                                }
+                            };
+                            
+                            // Create the chart
+                            const myChart = new Chart(
+                                document.getElementById('inputChart'),
+                                config
+                            );
+                        });
+                </script>
+            </div>
+        </div>
+        <div id="OutputData" class="datacontent">
+            <div class="thruster-data">
+                <canvas id="thrusterChart"></canvas>
+            </div>
+            <div class="claw-data">
+                <canvas id="clawChart"></canvas>
+            </div>
+        </div>
+        <div id="SensorsData" class="datacontent">
+            <div class="element">
+                <canvas id="batteryChart"></canvas>
+            </div>
+            <div class="element">
+                <canvas id="sensorChart"></canvas>
+            </div>
+            <div class="element">
+                <canvas id="3dChart"></canvas>
+            </div>
+            <div class="element">
+                <canvas id="extraChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- Tab content for Settings -->
+    <div id="Settings" class="tabcontent">
+        <!-- Add your login screen and settings views here -->
+    </div>
+
+    <script src="static/js/index.js"></script>
+</body>
+</html>
