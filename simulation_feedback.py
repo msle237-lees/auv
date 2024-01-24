@@ -16,6 +16,63 @@ latest_images = {
     'down': io.BytesIO()
 }
 
+import socket
+from threading import Thread
+
+def start_tcp_server(host, port):
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((host, port))
+    server_socket.listen(5)
+    print(f"TCP server listening on {host}:{port}...")
+    
+    while True:
+        conn, addr = server_socket.accept()
+        print(f"Connected by {addr}")
+        Thread(target=handle_client, args=(conn,)).start()
+
+def handle_client(conn):
+    try:
+        while True:
+            # Receive camera ID first (1 byte)
+            camera_id_data = conn.recv(1)
+            if not camera_id_data:
+                break
+            
+            camera_id = int.from_bytes(camera_id_data, byteorder='big')
+            camera_type = 'front' if camera_id == 1 else 'down'
+
+            # Receive image size (4 bytes)
+            size_data = conn.recv(4)
+            if not size_data:
+                break
+
+            image_size = int.from_bytes(size_data, byteorder='big')
+            print(f"Expecting image of size: {image_size}")
+
+            # Receive the actual image
+            image_data = b''
+            while len(image_data) < image_size:
+                packet = conn.recv(image_size - len(image_data))
+                if not packet:
+                    break
+                image_data += packet
+
+            if image_data:
+                with image_locks[camera_type]:
+                    latest_images[camera_type].seek(0)
+                    latest_images[camera_type].truncate(0)
+                    latest_images[camera_type].write(image_data)
+                    latest_images[camera_type].seek(0)
+            else:
+                print("No image data received.")
+                break
+    finally:
+        conn.close()
+
+# Start the TCP server in a separate thread
+Thread(target=start_tcp_server, args=('0.0.0.0', 12345)).start()
+
+
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     camera_type = request.args.get('camera', 'front')  # default to 'front' if not specified
