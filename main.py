@@ -1,5 +1,3 @@
-# TODO: Modify movement package to map to uint8_t values (0 - 255)
-# TODO: Modify hardware package to send uint8_t values (0 - 255)
 # TODO: Modify Camera Package to allow for simulation testing (i.e. get images from unity simulation with a socket connection)
 # TODO: Fix the unity simulation to allow for a socket connection for both image data and control data
 # TODO: Create reinforcement learning model and start training in simulation
@@ -684,13 +682,28 @@ class HardwarePackage:
         """
         new_entry = self.SensorsInputDB(
             Date=datetime.utcnow(),
-            OTemp=float(parsed_data[15]),
-            TTube=float(parsed_data[16]),
-            Depth=float(parsed_data[17]),
-            Humidity=float(parsed_data[18]),
-            Voltage=float(parsed_data[19]),
-            Current=float(parsed_data[20])
+            OTemp=float(parsed_data[0]),
+            TTube=float(parsed_data[1]),
+            Depth=float(parsed_data[2]),
+            Humidity=float(parsed_data[3]),
+            Voltage=float(parsed_data[4]),
+            Pressure=float(parsed_data[5]),
+            AvgVoltage=float((parsed_data[6] + parsed_data[7] + parsed_data[8]) / 3),
+            AvgCurrent=float((parsed_data[9] + parsed_data[10] + parsed_data[11]) / 3),
+            B1Current=float(parsed_data[9]),
+            B2Current=float(parsed_data[10]),
+            B3Current=float(parsed_data[11]),
+            B1Voltage=float(parsed_data[6]),
+            B2Voltage=float(parsed_data[7]),
+            B3Voltage=float(parsed_data[8]),
+            X=float(parsed_data[12]),
+            Y=float(parsed_data[13]),
+            Z=float(parsed_data[14]),
+            Pitch=float(parsed_data[15]),
+            Roll=float(parsed_data[16]),
+            Yaw=float(parsed_data[17])
         )
+
         self.hardware_logger.info(f"Saving data: {new_entry}")
         self.db.session.add(new_entry)
         self.db.session.commit()
@@ -825,7 +838,7 @@ neural_network_logger = create_logger('neural_network', 'static/logs/Neural_Netw
 
 # Initialize the packages and pass the loggers
 camera1 = CameraPackage(0, camera_logger)
-camera2 = CameraPackage(1, camera_logger)
+camera2 = CameraPackage(2, camera_logger)
 controller = ControllerPackage(controller_logger, db, Input)
 # hardware = HardwarePackage('', 115200, hardware_logger, db, Sensors, Output)
 movement = MovementPackage(movement_logger, db, Input, Output, Sensors)
@@ -984,7 +997,8 @@ def get_output_data():
     } for item in data])
 
 @app.route('/post-sensors', methods=['POST'])
-def post_sensors(data : dict):
+def post_sensors():
+    data = request.get_json()
     new_entry = Sensors(
         Date=datetime.utcnow(),
         OTemp=data['OTemp'],
@@ -1012,7 +1026,8 @@ def post_sensors(data : dict):
     return jsonify({"message": f"Sensors data received and saved successfully"})
 
 @app.route('/post-output', methods=['POST'])
-def post_output(data: dict):
+def post_output():
+    data = request.get_json()
     new_entry = Output(
         Date=datetime.utcnow(),
         M1=data['M1'],

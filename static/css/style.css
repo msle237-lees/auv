@@ -74,7 +74,7 @@ body {
 
 /* Control button size */
 .control-button {
-  width: 90%; /* Adjust the width as per requirement */
+  width: 10%; /* Adjust the width as per requirement */
   padding: 10px; /* Padding for buttons */
   margin: 5px; /* Margin around buttons */
 }
