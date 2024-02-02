@@ -48,25 +48,3 @@ print(response.content)
 response = requests.post(output_url, json=output_data)
 print(response.status_code)
 print(response.content)
-
-# # The URL of the Flask app to which you want to send the POST request
-# url = 'http://your-flask-app-url.com/post_data'
-
-# # The JSON data you want to send
-# data = {
-#     'key1': 'value1',
-#     'key2': 'value2'
-# }
-
-# # Send a POST request
-# response = requests.post(url, json=data)
-
-# # Check the status code of the response (200 is OK, 404 is Not Found, etc.)
-# if response.status_code == 200:
-#     print('Success!')
-#     # If you expect a JSON response, you can access it here
-#     print(response.json())
-# else:
-#     print('Failed to send POST request.')
-#     print(f'Status code: {response.status_code}')
-#     print(f'Response content: {response.content}')

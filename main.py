@@ -838,7 +838,7 @@ neural_network_logger = create_logger('neural_network', 'static/logs/Neural_Netw
 
 # Initialize the packages and pass the loggers
 camera1 = CameraPackage(0, camera_logger)
-camera2 = CameraPackage(2, camera_logger)
+camera2 = CameraPackage(1, camera_logger)
 controller = ControllerPackage(controller_logger, db, Input)
 # hardware = HardwarePackage('', 115200, hardware_logger, db, Sensors, Output)
 movement = MovementPackage(movement_logger, db, Input, Output, Sensors)
