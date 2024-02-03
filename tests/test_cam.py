@@ -4,9 +4,6 @@ cap = cv2.VideoCapture(0)
 
 while True:
     ret, frame = cap.read()
-    if not ret or frame is None:
-        print("Frame is empty or not correctly received.")
-        continue  # Skip this iteration
 
     cv2.imshow('frame', frame)
 
