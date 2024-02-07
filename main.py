@@ -876,6 +876,7 @@ def capture_camera(camera):
     """
     while camera.running:
         success, frame = camera.get_frame()
+        print(success, frame)
         if not success:
             continue
         # Encode the frame in JPEG format; may need to adjust parameters based on your camera's output
