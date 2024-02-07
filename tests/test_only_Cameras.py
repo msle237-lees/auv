@@ -170,7 +170,7 @@ def capture_camera(camera):
         # Encode the frame in JPEG format; may need to adjust parameters based on your camera's output
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = camera.parse_frame(buffer)
-        camera.show_image(frame)
+        # camera.show_image(frame)
         if frame_bytes:
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
