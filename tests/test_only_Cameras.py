@@ -198,15 +198,15 @@ def capture_camera(camera):
     """
     while camera.running:
         success, frame = camera.get_frame()
-        camera.show_image(frame)
         if not success:
             continue
         # Encode the frame in JPEG format; may need to adjust parameters based on your camera's output
         _, buffer = cv2.imencode('.jpg', frame)
-        frame_bytes = buffer.tobytes()
+        frame_bytes = camera.parse_frame(buffer)
+        camera.show_image(frame)
         if frame_bytes:
             yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+                b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
 # Create the necessary flask routes
 # Home Page
