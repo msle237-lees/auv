@@ -939,7 +939,6 @@ def video_feed(camera_index):
     return Response(capture_camera(camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
 @app.route('/start_recording/<int:camera_index>/')
 def start_recording(camera_index):
     camera = camera1 if camera_index == 0 else camera2
