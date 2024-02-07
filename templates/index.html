@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AUV Interface</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css?version={{timestamp}}">
     <meta http-equiv="pragma" content="no-cache">
 </head>
 <body onload="setDefaultMode()">
@@ -54,110 +54,6 @@
         </div>
         <!-- Content for internal tabs -->
         <div id="InputData" class="datacontent">
-            <!-- <div class="data">
-                <canvas id="inputChart"></canvas>
-                <script>
-                    // Fetch the data from the Flask endpoint
-                    fetch('/get-input')
-                        .then(response => response.json())
-                        .then(data => {
-                            // Process the data
-                            const labels = data.map(item => item.Date);
-                            const xValues = data.map(item => item.X);
-                            const yValues = data.map(item => item.Y);
-                            const zValues = data.map(item => item.Z);
-                            const rollValues = data.map(item => item.Roll);
-                            const pitchValues = data.map(item => item.Pitch);
-                            const yawValues = data.map(item => item.Yaw);
-                            const clawValues = data.map(item => item.Claw);
-                            const SBValues = data.map(item => item.SB);
-                            
-                            // Prepare data for the chart
-                            const chartData = {
-                                labels: labels,
-                                datasets: [
-                                    {
-                                        label: 'X',
-                                        data: xValues,
-                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                        borderColor: 'rgba(255, 99, 132, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Y',
-                                        data: yValues,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Z',
-                                        data: zValues,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Roll',
-                                        data: rollValues,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Pitch',
-                                        data: pitchValues,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Yaw',
-                                        data: yawValues,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Claw',
-                                        data: clawValues,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'KS',
-                                        data: SBValues,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    }
-                                ]
-                            };
-                            
-                            // Configurations for the chart
-                            const config = {
-                                type: 'bar',
-                                data: chartData,
-                                options: {
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true,
-                                            suggestedMin: -1,
-                                            suggestedMax: 1
-                                        }
-                                    }
-                                }
-                            };
-                            
-                            // Create the chart
-                            const myChart = new Chart(
-                                document.getElementById('inputChart'),
-                                config
-                            );
-                        });
-                </script>
-            </div> -->
         </div>
         <div id="OutputData" class="datacontent">
             <div class="thruster-data">
@@ -187,6 +83,6 @@
         <!-- Add your login screen and settings views here -->
     </div>
 
-    <script src="static/js/index.js"></script>
+    <script src="static/js/index.js?version={{timestamp}}"></script>
 </body>
 </html>
