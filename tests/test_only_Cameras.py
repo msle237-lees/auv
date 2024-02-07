@@ -36,7 +36,6 @@ class CameraPackage:
         self.cap = None
         self.lock = threading.Lock()
         self.running = False
-        self.frame_directory = 'static/imgs/frames'
 
         camera_logger.info('Camera Package initialized')
 
@@ -80,7 +79,7 @@ class CameraPackage:
 
     def parse_frame(self, frame):
         """
-        Encode the frame in JPEG format.
+        Encode the frame in JPEG format, with options to resize and increase compression for large images.
 
         Args:
             frame (numpy.ndarray): The frame to be encoded.
@@ -88,7 +87,16 @@ class CameraPackage:
         Returns:
             bytes: The encoded frame bytes, or None if encoding fails.
         """
-        ret, buffer = cv2.imencode('.jpg', frame)
+        # Resize frame to reduce size, adjust dimensions as needed
+        scale_percent = 50  # example to reduce size by 50%
+        width = int(frame.shape[1] * scale_percent / 100)
+        height = int(frame.shape[0] * scale_percent / 100)
+        dim = (width, height)
+        resized_frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+
+        # Adjust compression, 90 is an example, lower values increase compression
+        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+        ret, buffer = cv2.imencode('.jpg', resized_frame, encode_param)
         return buffer.tobytes() if ret else None
 
     def show_image(self, frame):
