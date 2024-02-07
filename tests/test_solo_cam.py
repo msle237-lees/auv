@@ -5,6 +5,8 @@ app = Flask(__name__)
 
 def generate_frames(camera_index):
     camera = cv2.VideoCapture(camera_index)  # Dynamically use the camera index
+    # Attempt to set the FPS to 30
+    camera.set(cv2.CAP_PROP_FPS, 30)  # Set FPS to 30
     while True:
         success, frame = camera.read()
         if not success:
