@@ -72,16 +72,3 @@ function setDefaultMode() {
     // Open default internal tab (Input Data)
     openDataTab(null, 'InputData'); // Pass null for the event if it's not available
 }
-
-document.getElementById('darkModeToggle').addEventListener('change', function(event) {
-    if (event.target.checked) {
-        document.body.classList.add('dark-mode');
-        document.querySelector('.tab').classList.add('dark-mode');
-        // Add dark-mode class to other elements as needed
-    } else {
-        document.body.classList.remove('dark-mode');
-        document.querySelector('.tab').classList.remove('dark-mode');
-        // Remove dark-mode class from other elements as needed
-    }
-});
-
