@@ -70,7 +70,7 @@ class CameraPackage:
             if not self.running:
                 try:
                     cam_pipeline_str = f'nvarguscamerasrc sensor-id={str(self.camera_index)} ! video/x-raw(memory:NVMM),format=NV12,width=1280,height=720,framerate=30/1 ! nvvidconv ! video/x-raw,format=BGRx ! videoconvert ! video/x-raw,format=BGR ! appsink drop=1'
-                    self.cap = cv2.VideoCapture(cam_pipeline_str + cv2.CAP_GSTREAMER)
+                    self.cap = cv2.VideoCapture(cam_pipeline_str, cv2.CAP_GSTREAMER)
                     self.running = True
 
                     self.camera_logger.info(f'Camera {self.camera_index} started')
