@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUV Interface</title>
+    <link rel="stylesheet" href="static/css/style.css?version={{timestamp}}">
+    <meta http-equiv="pragma" content="no-cache">
+</head>
+<body onload="setDefaultMode()">
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'CameraFeeds')">Camera Feeds</button>
+        <button class="tablinks" onclick="openTab(event, 'DataView')">Data View</button>
+        <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+        <!-- Dark Mode Toggle -->
+        <label class="switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
+    <!-- Tab content for Camera Feeds -->
+    <div id="CameraFeeds" class="tabcontent">
+        <div class="camera-feed">
+            <img src="/video_feed/0"></img>
+            <img src="/video_feed/1"></img>
+        </div>
+        <div class="footer">
+            <div class="element">
+                <button class="control-button" onclick="sendCommand('start-real-all')">Start All</button>
+                <button class="control-button" onclick="sendCommand('stop-real-all')">Stop All</button>
+            </div>
+            <div class="element">
+                <button class="control-button" onclick="sendCommand('start-hardware')">Start Hardware</button>
+                <button class="control-button" onclick="sendCommand('stop-hardware')">Stop Hardware</button>
+            </div>
+            <div class="element">
+                <button class="control-button" onclick="sendCommand('start-simulation')">Start Simulation</button>
+                <button class="control-button" onclick="sendCommand('stop-simulation')">Stop Simulation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab content for Data View -->
+    <div id="DataView" class="tabcontent">
+        <!-- Internal tabs for Data View -->
+        <div class="tab">
+            <button class="tablinks" onclick="openDataTab(event, 'InputData')">Input Data</button>
+            <button class="tablinks" onclick="openDataTab(event, 'OutputData')">Output Data</button>
+            <button class="tablinks" onclick="openDataTab(event, 'SensorsData')">Sensors Data</button>
+        </div>
+        <div class="header">
+            <button class="download-button" onclick="downloadData()">Download</button>
+        </div>
+        <!-- Content for internal tabs -->
+        <div id="InputData" class="datacontent">
+        </div>
+        <div id="OutputData" class="datacontent">
+            <div class="thruster-data">
+                <canvas id="thrusterChart"></canvas>
+            </div>
+            <div class="claw-data">
+                <canvas id="clawChart"></canvas>
+            </div>
+        </div>
+        <div id="SensorsData" class="datacontent">
+            <div class="element">
+                <canvas id="batteryChart"></canvas>
+            </div>
+            <div class="element">
+                <canvas id="sensorChart"></canvas>
+            </div>
+            <div class="element">
+                <canvas id="3dChart"></canvas>
+            </div>
+            <div class="element">
+                <canvas id="extraChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- Tab content for Settings -->
+    <div id="Settings" class="tabcontent">
+        <!-- Add your login screen and settings views here -->
+    </div>
+
+    <script src="static/js/index.js?version={{timestamp}}"></script>
+</body>
+</html>
