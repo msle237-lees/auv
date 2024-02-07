@@ -68,10 +68,14 @@ class CameraPackage:
         """Start the camera stream."""
         with self.lock:
             if not self.running:
-                self.cap = cv2.VideoCapture(self.camera_index + cv2.CAP_V4L)
-                self.running = True
+                try:
+                    self.cap = cv2.VideoCapture(self.camera_index + cv2.CAP_V4L)
+                    self.running = True
 
-                self.camera_logger.info(f'Camera {self.camera_index} started')
+                    self.camera_logger.info(f'Camera {self.camera_index} started')
+                except Exception as e:
+                    self.camera_logger.error(f'Error starting camera {self.camera_index}: {e}')
+                    self.running = False
 
     def stop_camera(self):
         """Stop the camera stream."""
