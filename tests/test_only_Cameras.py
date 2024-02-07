@@ -48,6 +48,7 @@ class CameraPackage:
                     self.running = True
 
                     self.camera_logger.info(f'Camera {self.camera_index} started')
+                    self.camera_logger.info(f'Camera {self.camera_index} is Opened: {self.cap.isOpened()}')
                 except Exception as e:
                     self.camera_logger.error(f'Error starting camera {self.camera_index}: {e}')
                     self.running = False
