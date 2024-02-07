@@ -3,10 +3,10 @@ import cv2
 
 app = Flask(__name__)
 
-def generate_frames():
-    camera = cv2.VideoCapture(0)  # Use 0 for the primary webcam
+def generate_frames(camera_index):
+    camera = cv2.VideoCapture(camera_index)  # Dynamically use the camera index
     while True:
-        success, frame = camera.read()  # Read the camera frame
+        success, frame = camera.read()
         if not success:
             break
         else:
@@ -14,17 +14,28 @@ def generate_frames():
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    camera.release()  # Release the camera resource
 
-@app.route('/video_feed')
-def video_feed():
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(generate_frames(),
+@app.route('/video_feed/<int:camera_index>')
+def video_feed(camera_index):
+    """Video streaming route for a specific camera."""
+    return Response(generate_frames(camera_index),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
 def index():
-    """Video streaming home page."""
-    return Response('<html><body><img src="/video_feed"></body></html>')
+    """Home page with links to video streams."""
+    # Example with direct embedding
+    return Response('''
+    <html>
+    <body>
+    <h2>Camera 0</h2>
+    <img src="/video_feed/0">
+    <h2>Camera 4</h2>
+    <img src="/video_feed/4">
+    </body>
+    </html>
+    ''')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True, host='0.0.0.0')
