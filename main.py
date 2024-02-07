@@ -1059,13 +1059,13 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # This creates tables for the default database
 
-    # Start camera instances
-    camera1.start_camera()
-    camera2.start_camera()
-
     try:
         # Start Flask app
         app.run(debug=True, host='0.0.0.0', port=5000)
+
+        # Start camera instances
+        camera1.start_camera()
+        camera2.start_camera()
     finally:
         # Ensure resources are released on shutdown
         shutdown_server()
