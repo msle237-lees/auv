@@ -10,8 +10,6 @@
 <body onload="setDefaultMode()">
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'CameraFeeds')">Camera Feeds</button>
-        <button class="tablinks" onclick="openTab(event, 'DataView')">Data View</button>
-        <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
         <!-- Dark Mode Toggle -->
         <label class="switch">
             <input type="checkbox" id="darkModeToggle">
@@ -39,48 +37,6 @@
                 <button class="control-button" onclick="sendCommand('stop-simulation')">Stop Simulation</button>
             </div>
         </div>
-    </div>
-
-    <!-- Tab content for Data View -->
-    <div id="DataView" class="tabcontent">
-        <!-- Internal tabs for Data View -->
-        <div class="tab">
-            <button class="tablinks" onclick="openDataTab(event, 'InputData')">Input Data</button>
-            <button class="tablinks" onclick="openDataTab(event, 'OutputData')">Output Data</button>
-            <button class="tablinks" onclick="openDataTab(event, 'SensorsData')">Sensors Data</button>
-        </div>
-        <div class="header">
-            <button class="download-button" onclick="downloadData()">Download</button>
-        </div>
-        <!-- Content for internal tabs -->
-        <div id="InputData" class="datacontent">
-        </div>
-        <div id="OutputData" class="datacontent">
-            <div class="thruster-data">
-                <canvas id="thrusterChart"></canvas>
-            </div>
-            <div class="claw-data">
-                <canvas id="clawChart"></canvas>
-            </div>
-        </div>
-        <div id="SensorsData" class="datacontent">
-            <div class="element">
-                <canvas id="batteryChart"></canvas>
-            </div>
-            <div class="element">
-                <canvas id="sensorChart"></canvas>
-            </div>
-            <div class="element">
-                <canvas id="3dChart"></canvas>
-            </div>
-            <div class="element">
-                <canvas id="extraChart"></canvas>
-            </div>
-        </div>
-    </div>
-    <!-- Tab content for Settings -->
-    <div id="Settings" class="tabcontent">
-        <!-- Add your login screen and settings views here -->
     </div>
 
     <script src="static/js/index.js"></script>
