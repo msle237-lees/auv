@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 import cv2
 
 app = Flask(__name__)
@@ -26,9 +26,7 @@ def video_feed(camera_index):
 
 @app.route('/')
 def index():
-    """Home page with links to video streams."""
-    # Example with direct embedding
-    return Response('index.html')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True, host='0.0.0.0')
