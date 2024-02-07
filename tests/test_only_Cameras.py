@@ -45,7 +45,7 @@ class CameraPackage:
         with self.lock:
             if not self.running:
                 try:
-                    self.cap = cv2.VideoCapture(self.camera_index, cv2.CAP_FFMPEG)
+                    self.cap = cv2.VideoCapture(self.camera_index)
                     self.running = True
 
                     self.camera_logger.info(f'Camera {self.camera_index} started')
