@@ -862,23 +862,25 @@ def shutdown_server():
         # Stop the neural network
         neural_network.stop()
 
-# Create a capture camera function for the camera routes
-# This saves the video stream as a video file
 def capture_camera(camera):
     """
-    Generator to capture frames from the camera.
+    Generator function to capture frames from a camera and encode them for HTTP streaming.
 
-    Args:
-        camera (CameraPackage): Camera package object.
+    This generator continuously captures frames from the specified camera, encodes them
+    as JPEG for compatibility with web browsers, and yields them in a format suitable for
+    HTTP multipart streaming. It uses the cv2.imencode function to convert frames into JPEG
+    format, ensuring they can be efficiently transmitted over a network.
 
-    Yields:
-        bytes: JPEG encoded frame bytes.
+    @param camera An instance of a camera class that provides access to frame capture functionality.
+    @yield Encoded frame data in multipart/x-mixed-replace format for live video streaming.
     """
     while camera.running:
         success, frame = camera.get_frame()
         if not success:
             continue
-        frame_bytes = camera.parse_frame(frame)
+        # Encode the frame in JPEG format; may need to adjust parameters based on your camera's output
+        _, buffer = cv2.imencode('.jpg', frame)
+        frame_bytes = buffer.tobytes()
         if frame_bytes:
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
@@ -925,15 +927,18 @@ def video_feed(camera_index):
     """
     Route to get the video feed of a specific camera.
 
-    Args:
-        camera_index (int): Index of the camera for the video feed.
+    This function is designed to handle video streaming by selecting
+    the appropriate camera based on the camera index. It dynamically
+    generates a multipart response stream that updates with new frames
+    from the selected camera.
 
-    Returns:
-        Response: Flask response object for video streaming.
+    @param camera_index The index of the camera to stream.
+    @return A Flask response object that streams the video feed.
     """
     camera = camera1 if camera_index == 0 else camera2
     return Response(capture_camera(camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 @app.route('/start_recording/<int:camera_index>/')
 def start_recording(camera_index):
