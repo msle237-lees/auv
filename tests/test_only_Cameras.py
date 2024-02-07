@@ -198,9 +198,9 @@ def capture_camera(camera):
     """
     while camera.running:
         success, frame = camera.get_frame()
+        camera.show_image(frame)
         if not success:
             continue
-        camera.show_image(frame)
         # Encode the frame in JPEG format; may need to adjust parameters based on your camera's output
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
