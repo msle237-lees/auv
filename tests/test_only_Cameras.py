@@ -237,6 +237,9 @@ if __name__ == '__main__':
     camera1.start_camera()
     camera2.start_camera()
 
+    camera1.save_image(camera1.get_frame()[1])
+    camera2.save_image(camera2.get_frame()[1])
+
     try:
         # Start Flask app
         app.run(debug=True, host='0.0.0.0', port=5000)
