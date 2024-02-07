@@ -26,16 +26,7 @@ def video_feed(camera_index):
 
 @app.route('/')
 def index():
-    return Response('''
-    <html>
-        <body>
-        <h2>Camera 0</h2>
-        <img src="/video_feed/0">
-        <h2>Camera 4</h2>
-        <img src="/video_feed/4">
-        </body>
-    </html>
-    ''')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True, host='0.0.0.0')

@@ -2,37 +2,16 @@
 <html>
     <head>
         <title>AUV Dashboard</title>
-        <link rel="stylesheet" type="text/css" href="static/css/style.css">
-        <script src="static/js/index.js"></script>
+        <!-- <link rel="stylesheet" type="text/css" href="static/css/style.css"> -->
+        <!-- <script src="static/js/index.js"></script> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body>
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'CameraFeeds')">Camera Feeds</button>
-            <button class="tablinks" onclick="openTab(event, 'DataFeeds')">Data Feeds</button>
-            <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
-            <!-- Dark Mode Toggle -->
-            <label class="switch">
-                <input type="checkbox" id="darkModeToggle">
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div id="CameraFeeds" class="tabcontent">
-            <div class="cameraFeeds">
-                <img src="/video_feed/0">
-                <img src="/video_feed/1">
-            </div>
-            <div class="quick-data">
-                <h1>Quick Data</h1>
-            </div>
-        </div>
-        <div id="DataFeeds" class="tabcontent">
-            <h3>Data Feeds</h3>
-            <p>Some data feeds will go here</p>
-        </div>
-        <div id="Settings" class="tabcontent">
-            <h3>Settings</h3>
-            <p>Some settings will go here</p>
-        </div>
-    </body>
+    <html>
+        <body>
+        <h2>Camera 0</h2>
+        <img src="/video_feed/0">
+        <h2>Camera 4</h2>
+        <img src="/video_feed/4">
+        </body>
+    </html>
 </html>
