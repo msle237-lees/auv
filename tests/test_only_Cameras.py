@@ -137,6 +137,17 @@ class CameraPackage:
         print(f"Deleted image {filename}")
         self.camera_logger.info(f"Deleted image {filename}")
 
+    def show_image(self, frame):
+        """
+        Display the frame in a window.
+
+        Args:
+            frame (numpy.ndarray): The frame to be displayed.
+        """
+        cv2.imshow('frame', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            self.stop_camera()
+
     def release(self):
         """Release the camera resource and stop recording if it's on."""
         with self.lock:
@@ -187,9 +198,9 @@ def capture_camera(camera):
     """
     while camera.running:
         success, frame = camera.get_frame()
-        print(success, frame)
         if not success:
             continue
+        camera.show_image(frame)
         # Encode the frame in JPEG format; may need to adjust parameters based on your camera's output
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
