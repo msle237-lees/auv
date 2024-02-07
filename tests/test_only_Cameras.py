@@ -36,6 +36,7 @@ class CameraPackage:
         self.cap = None
         self.lock = threading.Lock()
         self.running = False
+        self.frame_directory = 'static/imgs/frames'
 
         camera_logger.info('Camera Package initialized')
 
