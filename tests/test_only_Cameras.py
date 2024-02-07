@@ -238,8 +238,8 @@ if __name__ == '__main__':
     camera1.start_camera()
     camera2.start_camera()
 
-    camera1.save_image(camera1.get_frame()[1])
-    camera2.save_image(camera2.get_frame()[1])
+    camera1.show_image(camera1.parse_frame(camera1.get_frame()[1]))
+    camera2.show_image(camera2.parse_frame(camera2.get_frame()[1]))
 
     try:
         # Start Flask app
