@@ -63,30 +63,6 @@ class CameraPackage:
 
             self.camera_logger.info(f'Camera {self.camera_index} stopped')
 
-    def start_recording(self, filename):
-        """
-        Start recording the video to a file.
-
-        Args:
-            filename (str): Filename for the recorded video.
-        """
-        with self.lock:
-            if self.running and not hasattr(self, 'out'):
-                fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                self.out = cv2.VideoWriter(filename, fourcc, 20.0, (640, 480))
-
-                self.camera_logger.info(f'Camera {self.camera_index} recording started')
-
-    def stop_recording(self):
-        """
-        Stop the video recording.
-        """
-        with self.lock:
-            if hasattr(self, 'out'):
-                self.out.release()
-                del self.out
-                self.camera_logger.info(f'Camera {self.camera_index} recording stopped')
-
     def get_frame(self):
         """
         Capture a frame from the camera and write to video file if recording.
@@ -114,29 +90,6 @@ class CameraPackage:
         """
         ret, buffer = cv2.imencode('.jpg', frame)
         return buffer.tobytes() if ret else None
-
-    def save_image(self, frame):
-        """
-        Save the captured frame as an image file.
-
-        Args:
-            frame (numpy.ndarray): The frame to be saved.
-        """
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = os.path.join(self.frame_directory, f"frame_{timestamp}.jpg")
-        cv2.imwrite(filename, frame)
-        self.camera_logger.info(f"Saved image {filename}")
-
-    def delete_image(self, filename):
-        """
-        Delete an image file.
-
-        Args:
-            filename (str): The name of the file to be deleted.
-        """
-        os.remove(os.path.join(self.frame_directory, filename))
-        print(f"Deleted image {filename}")
-        self.camera_logger.info(f"Deleted image {filename}")
 
     def show_image(self, frame):
         """
@@ -237,9 +190,6 @@ if __name__ == '__main__':
     # Start camera instances
     camera1.start_camera()
     camera2.start_camera()
-
-    camera1.show_image(camera1.parse_frame(camera1.get_frame()[1]))
-    camera2.show_image(camera2.parse_frame(camera2.get_frame()[1]))
 
     try:
         # Start Flask app
