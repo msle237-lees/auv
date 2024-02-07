@@ -88,18 +88,22 @@ class CameraPackage:
         Returns:
             bytes: The encoded frame bytes, or None if encoding fails.
         """
-        # Resize frame to reduce size, adjust dimensions as needed
-        scale_percent = 50  # example to reduce size by 50%
-        width = int(frame.shape[1] * scale_percent / 100)
-        height = int(frame.shape[0] * scale_percent / 100)
-        dim = (width, height)
-        resized_frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+        try:
+            # Resize frame to reduce size, adjust dimensions as needed
+            scale_percent = 50  # example to reduce size by 50%
+            width = int(frame.shape[1] * scale_percent / 100)
+            height = int(frame.shape[0] * scale_percent / 100)
+            dim = (width, height)
+            resized_frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
 
-        # Adjust compression, 90 is an example, lower values increase compression
-        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
-        ret, buffer = cv2.imencode('.jpg', resized_frame, encode_param)
-        return buffer.tobytes() if ret else None
-
+            # Adjust compression, 90 is an example, lower values increase compression
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+            ret, buffer = cv2.imencode('.jpg', resized_frame, encode_param)
+            return buffer.tobytes() if ret else None
+        except Exception as e:
+            self.camera_logger.error(f'Error parsing frame: {e}')
+            return None
+        
     def show_image(self, frame):
         """
         Display the frame in a window.
