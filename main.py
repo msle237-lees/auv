@@ -57,13 +57,6 @@ def video_feed(camera_index):
     return Response(generate_frames(camera_index),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/depth_feed/<int:camera_index>')
-def depth_feed(camera_index):
-    """Depth streaming route for the ZED camera."""
-    # You would need to modify generate_frames or create a new function to handle depth streaming
-    return Response(generate_depth_frames(camera_index),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
 @app.route('/')
 def index():
     return render_template('index.html')
