@@ -46,6 +46,6 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    for i in range(10):  # Test indices 0-9
-        test_camera_index(i)
+    # for i in range(10):  # Test indices 0-9
+    #     test_camera_index(i)
     app.run(debug=True, threaded=True, host='0.0.0.0')
