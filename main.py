@@ -5,7 +5,7 @@ import cv2
 app = Flask(__name__)
 
 def generate_frames(camera_index):
-    if camera_index == <ZED_CAMERA_INDEX>:  # Replace <ZED_CAMERA_INDEX> with the index you use for the ZED camera
+    if camera_index == 1:  # Replace <ZED_CAMERA_INDEX> with the index you use for the ZED camera
         # ZED camera initialization and streaming logic
         zed = sl.Camera()
 
