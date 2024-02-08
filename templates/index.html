@@ -2,28 +2,20 @@
 <html>
     <head>
         <title>AUV Dashboard</title>
-        <!-- <link rel="stylesheet" type="text/css" href="static/css/style.css"> -->
-        <!-- <script src="static/js/index.js"></script> -->
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <html>
         <body>
-            <div class="tab-container">
-                <button class="tab" onclick="openTab(event, 'Camera')">Camera</button>
-                <button class="tab" onclick="openTab(event, 'Sensors')">Sensors</button>
-                <button class="tab" onclick="openTab(event, 'Controls')">Controls</button>
+            <h3>Camera</h3>
+            <div class="image-container">
+                <h2>Camera 0</h2>
+                <img src="/video_feed/0">
             </div>
-            <div class="tab-content" id="Camera">
-                <h3>Camera</h3>
-                <div class="image-container">
-                    <h2>Camera 0</h2>
-                    <img src="/video_feed/0">
-                </div>
-                <div class="image-container">
-                    <h2>Camera 1</h2>
-                    <img src="/video_feed/2">
-                </div>           
-            </div>
+            <div class="image-container">
+                <h2>Camera 1</h2>
+                <img src="/video_feed/2">
+            </div>           
         </body>
     </html>
 </html>
