@@ -19,11 +19,14 @@ def camera_thread(camera_index):
     @param camera_index: The index of the camera.
     """
     camera = cv2.VideoCapture(camera_index)
+    if not camera.isOpened():
+        print(f"Failed to open camera with index {camera_index}.")
+        return  # Exit the thread if camera cannot be opened
+
     fps = camera.get(cv2.CAP_PROP_FPS)
     width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    # Use 'mp4v' as the codec and change file extension to '.mp4'
-    video_format = cv2.VideoWriter_fourcc(*'mp4v')  # For MP4 format
+    video_format = cv2.VideoWriter_fourcc(*'mp4v')
 
     while True:
         success, frame = camera.read()
