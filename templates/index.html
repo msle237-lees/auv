@@ -14,7 +14,7 @@
         }
         .sidebar {
             height: 100%;
-            width: 0;
+            width: 250px; /* Default width */
             position: fixed;
             z-index: 1;
             top: 0;
@@ -23,6 +23,10 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
+            transform: translateX(-250px); /* Start off-screen */
+        }
+        .sidebar.active {
+            transform: translateX(0); /* Slide in */
         }
         .sidebar a {
             padding: 10px 15px;
@@ -45,18 +49,19 @@
         .tab-content {
             display: none;
             padding: 20px;
-            margin-left: 200px;
+            margin-left: 250px; /* Adjusted for sidebar */
         }
         .active-tab {
             display: block;
         }
         .tab-button {
             cursor: pointer;
+            display: none; /* Hide by default */
         }
         .image-container {
             display: inline-block;
-            width: 45%;
-            margin: 10px;
+            width: 100%; /* Full width on mobile */
+            margin: 10px 0;
             background-color: #343434;
             border-radius: 5px;
             padding: 10px;
@@ -65,19 +70,31 @@
             width: 100%;
             border-radius: 5px;
         }
+        @media screen and (min-width: 768px) {
+            .image-container {
+                width: 45%; /* Adjust based on your preference for larger screens */
+                margin: 10px;
+            }
+            .tab-button {
+                display: block; /* Show the sidebar toggle button on larger screens */
+            }
+            .tab-content {
+                margin-left: 0; /* No sidebar margin on smaller screens */
+            }
+        }
     </style>
 </head>
 <body>
 
 <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">×</a>
     <a href="#" onclick="openTab('Camera')">Camera</a>
     <a href="#" onclick="openTab('Data')">Data</a>
     <a href="#" onclick="openTab('Settings')">Settings</a>
 </div>
 
 <div id="main">
-    <button class="tab-button" onclick="openNav()">☰ Open Sidebar</button>
+    <button class="tab-button" onclick="toggleNav()">☰ Open Sidebar</button>
 
     <div id="Camera" class="tab-content active-tab">
         <h2>Camera Feeds</h2>
@@ -118,12 +135,13 @@
 </div>
 
 <script>
-    function openNav() {
-        document.getElementById("mySidebar").style.width = "250px";
-    }
-
-    function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
+    function toggleNav() {
+        var sidebar = document.getElementById("mySidebar");
+        if (sidebar.classList.contains("active")) {
+            sidebar.classList.remove("active");
+        } else {
+            sidebar.classList.add("active");
+        }
     }
 
     function openTab(tabName) {
