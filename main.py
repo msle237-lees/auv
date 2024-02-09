@@ -18,6 +18,8 @@ def camera_thread(camera_index):
     
     @param camera_index: The index of the camera.
     """
+    global frame_queues  # Ensure we're modifying the global dictionary
+
     camera = cv2.VideoCapture(camera_index)
     if not camera.isOpened():
         print(f"Failed to open camera with index {camera_index}.")
@@ -27,6 +29,10 @@ def camera_thread(camera_index):
     width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
     video_format = cv2.VideoWriter_fourcc(*'mp4v')
+
+    # Initialize the frame queue for this camera index if it doesn't exist
+    if camera_index not in frame_queues:
+        frame_queues[camera_index] = Queue(maxsize=10)  # Adjust maxsize as needed
 
     while True:
         success, frame = camera.read()
@@ -52,13 +58,19 @@ def camera_thread(camera_index):
 
 def stream_video(camera_index):
     """Generator function to stream video frames as JPEG."""
+    # Dynamically initialize the frame queue if it doesn't exist
+    if camera_index not in frame_queues:
+        frame_queues[camera_index] = Queue(maxsize=10)
+
     while True:
         if not frame_queues[camera_index].empty():
             frame = frame_queues[camera_index].get()
             _, buffer = cv2.imencode('.jpg', frame)
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
-
+        else:
+            # Optionally, yield a placeholder frame or sleep briefly
+            pass
 
 @app.route('/video_feed/<int:camera_index>')
 def video_feed(camera_index):
