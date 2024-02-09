@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>AUV Dashboard</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <html>
-        <body>
-            <h3>Camera</h3>
-            <div class="image-container">
-                <h2>Camera 0</h2>
-                <img src="/video_feed/0">
-            </div>
-            <div class="image-container">
-                <h2>Camera 1</h2>
-                <img src="/video_feed/1">
-            </div>           
-        </body>
-    </html>
+<head>
+    <title>Camera Feeds</title>
+    <style>
+        .image-container {
+            text-align: center;
+        }
+        img {
+            width: 45%; /* Adjust based on your preference */
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Camera Feeds</h2>
+    <div class="image-container">
+        <h3>Camera 0</h3>
+        <img src="/video_feed/0" alt="Camera 0 Feed">
+    </div>
+    <div class="image-container">
+        <h3>Camera 1</h3>
+        <img src="/video_feed/1" alt="Camera 1 Feed">
+    </div>
+    <!-- Add more cameras as needed -->
+</body>
 </html>

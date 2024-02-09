@@ -50,6 +50,22 @@ def camera_thread(camera_index):
         video_writers[camera_index].release()
         del video_writers[camera_index]
 
+def stream_video(camera_index):
+    """Generator function to stream video frames as JPEG."""
+    while True:
+        if not frame_queues[camera_index].empty():
+            frame = frame_queues[camera_index].get()
+            _, buffer = cv2.imencode('.jpg', frame)
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
+
+
+@app.route('/video_feed/<int:camera_index>')
+def video_feed(camera_index):
+    """Route to stream video from a given camera."""
+    return Response(stream_video(camera_index),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
 @app.route('/control_recording/<int:camera_index>', methods=['POST'])
 def control_recording(camera_index):
     """
