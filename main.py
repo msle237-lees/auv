@@ -58,12 +58,12 @@ def generate_frames(camera_index):
 cam1 = '/dev/v4l/by-id/usb-Anker_PowerConf_C200_Anker_PowerConf_C200_ACNV9P0D07619591-video-index0'
 cam2 = '/dev/v4l/by-id/usb-USB_Camera_USB_Camera-video-index0'
 
-@app.route('/video_feed/0')
+@app.route('/cam0_video_feed')
 def video_feed():
     return Response(generate_frames(0),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/video_feed/1')
+@app.route('/cam1_video_feed')
 def video_feed():
     return Response(generate_frames(1),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
