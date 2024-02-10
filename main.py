@@ -50,9 +50,11 @@ def generate_frames(camera_index):
             # If no frame is available, yield an empty frame or placeholder
             sleep(0.1)  # Avoid tight loop if no frames are available
 
-@app.route('/video_feed<str:camera_index>')
+cam1 = '/dev/v4l/by-id/usb-Anker_PowerConf_C200_Anker_PowerConf_C200_ACNV9P0D07619591-video-index0'
+cam2 = '/dev/v4l/by-id/usb-USB_Camera_USB_Camera-video-index0'
+
+@app.route('/video_feed/<int:camera_index>')
 def video_feed(camera_index):
-    start_camera_thread(camera_index)  # Ensure the camera thread is started
     return Response(generate_frames(camera_index),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -63,6 +65,6 @@ def index():
 
 if __name__ == '__main__':
     # Optionally pre-start camera threads for known camera indices
-    start_camera_thread('/dev/v4l/by-id/usb-Anker_PowerConf_C200_Anker_PowerConf_C200_ACNV9P0D07619591-video-index0')
-    start_camera_thread('/dev/v4l/by-id/usb-USB_Camera_USB_Camera-video-index0')
+    start_camera_thread(0)
+    start_camera_thread(2)
     app.run(debug=True, threaded=True, host='0.0.0.0')
