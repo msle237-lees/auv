@@ -14,6 +14,7 @@ def capture_frames(camera_index):
     global latest_frames
     camera = cv2.VideoCapture(camera_index)
     camera.set(cv2.CAP_PROP_FPS, 30)
+    camera.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
     if not camera.isOpened():
         print(f"Failed to open camera with index {camera_index}.")
         return
