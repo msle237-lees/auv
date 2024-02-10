@@ -64,5 +64,5 @@ def index():
 if __name__ == '__main__':
     # Optionally pre-start camera threads for known camera indices
     start_camera_thread(0)
-    start_camera_thread(1)
+    start_camera_thread(4)
     app.run(debug=True, threaded=True, host='0.0.0.0')
