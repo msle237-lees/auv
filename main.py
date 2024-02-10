@@ -51,15 +51,21 @@ def generate_frames(camera_index):
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         else:
+            print(f'No frame available for camera {camera_index}.')
             # If no frame is available, yield an empty frame or placeholder
             sleep(0.1)  # Avoid tight loop if no frames are available
 
 cam1 = '/dev/v4l/by-id/usb-Anker_PowerConf_C200_Anker_PowerConf_C200_ACNV9P0D07619591-video-index0'
 cam2 = '/dev/v4l/by-id/usb-USB_Camera_USB_Camera-video-index0'
 
-@app.route('/video_feed/<int:camera_index>')
-def video_feed(camera_index):
-    return Response(generate_frames(camera_index),
+@app.route('/video_feed/0')
+def video_feed():
+    return Response(generate_frames(0),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/video_feed/1')
+def video_feed():
+    return Response(generate_frames(1),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
