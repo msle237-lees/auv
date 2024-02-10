@@ -50,7 +50,7 @@ def generate_frames(camera_index):
             # If no frame is available, yield an empty frame or placeholder
             sleep(0.1)  # Avoid tight loop if no frames are available
 
-@app.route('/video_feed/<int:camera_index>')
+@app.route('/video_feed<str:camera_index>')
 def video_feed(camera_index):
     start_camera_thread(camera_index)  # Ensure the camera thread is started
     return Response(generate_frames(camera_index),
