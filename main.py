@@ -29,6 +29,7 @@ def capture_frames(camera_index):
             continue
         
         ret, buffer = cv2.imencode('.jpg', frame)
+        print(f'Camera {camera_index}: {len(buffer.tobytes())} bytes')
         latest_frames[camera_index] = buffer.tobytes()
 
     camera.release()
