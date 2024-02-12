@@ -6,6 +6,7 @@ import pyzed.sl as sl
 import numpy as np
 import threading
 import logging
+import signal
 import cv2
 
 # Global storage for camera frames and locks
@@ -211,7 +212,39 @@ def index():
     cameras = list(camera_frames.keys())
     return render_template('index.html', cameras=cameras)
 
+def shutdown_handler(signum, frame):
+    print("Shutdown signal received")
+
+    # Example: Release resources for the ZED camera
+    if 'zed' in camera_locks:
+        with camera_locks['zed']:
+            # Assuming `cam` is your ZED camera object
+            # You might need to make `cam` accessible here
+            cam.close()
+            print("ZED camera closed")
+
+    # Example: Stop USB camera capture by releasing the capture object
+    if 'usb' in camera_locks:
+        with camera_locks['usb']:
+            # Assuming `cap` is your OpenCV capture object for the USB camera
+            # You might need to adjust this part to access the `cap` object correctly
+            cap.release()
+            print("USB camera released")
+
+    # Add additional cleanup steps here
+
+    print("Cleanup completed, exiting application")
+    # Exit the program
+    exit(0)
+
+# Register the signal handler for SIGINT
+signal.signal(signal.SIGINT, shutdown_handler)
+
+
 if __name__ == '__main__':
+    # Register the shutdown handler
+    signal.signal(signal.SIGINT, shutdown_handler)
+    
     # Pre-start camera capture threads for known camera indices
     # Start camera capture threads
     threading.Thread(target=usb_camera_capture_thread, args=(0, camera_frames, camera_locks), daemon=True).start()  # Adjust 0 to your USB camera index
